@@ -1,3 +1,4 @@
+//  M.Theekshana Buddhika - 25021196
 import { pool } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import type { RowDataPacket } from 'mysql2';

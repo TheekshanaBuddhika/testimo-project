@@ -1,3 +1,4 @@
+//  M.Theekshana Buddhika - 25021196
 import type { NextAuthConfig } from 'next-auth';
 
 /**

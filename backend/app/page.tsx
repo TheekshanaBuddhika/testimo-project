@@ -1,3 +1,4 @@
+//  M.Theekshana Buddhika - 25021196
 import Image from "next/image";
 import styles from "./page.module.css";
 

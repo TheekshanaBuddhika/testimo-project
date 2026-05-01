@@ -3,11 +3,8 @@
 -- All statements use IF NOT EXISTS — safe to re-run.
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS testimo
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE testimo;
+-- Removed hardcoded CREATE DATABASE and USE testimo;
+-- so this can run on cloud providers like Aiven's defaultdb.
 
 -- ============================================================
 -- users: core identity (populated on first Google sign-in)

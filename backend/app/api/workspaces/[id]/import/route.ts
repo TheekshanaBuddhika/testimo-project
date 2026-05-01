@@ -41,9 +41,9 @@ export const POST = auth(async (req, { params }) => {
 
     const testimonials = parsed.data.testimonials;
     
-    // We will do a bulk insert using pool.query (which supports array of arrays for bulk inserts)
-    // format: INSERT INTO testimonials (workspace_id, submitter_name, ..., content, rating, source, status) VALUES ?
+    // Generate UUIDs in Node for consistency and MySQL 5.7 compatibility
     const values = testimonials.map(t => [
+      crypto.randomUUID(),
       workspaceId,
       t.submitter_name,
       t.submitter_email || null,
@@ -57,7 +57,7 @@ export const POST = auth(async (req, { params }) => {
 
     await pool.query(
       `INSERT INTO testimonials 
-        (workspace_id, submitter_name, submitter_email, submitter_title, submitter_company, content, rating, source, status) 
+        (id, workspace_id, submitter_name, submitter_email, submitter_title, submitter_company, content, rating, source, status) 
        VALUES ?`,
       [values]
     );

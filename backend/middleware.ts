@@ -5,8 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const { auth } = NextAuth(authConfig);
 
 const ALLOWED_ORIGINS = [
-  'http://localhost:5174',                   // Vite dev server (port 5174)
-  'http://localhost:5173',                   // Vite dev server (fallback)
+  'http://localhost:5173',                   // Vite dev server
   process.env.FRONTEND_URL ?? '',            // set in Vercel env
 ].filter(Boolean);
 

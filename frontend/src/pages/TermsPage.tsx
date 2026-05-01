@@ -5,8 +5,11 @@ export default function TermsPage() {
     <div className="static-page">
       <div className="static-container">
         <header className="static-header">
-          <h1>Terms and Conditions</h1>
-          <p className="last-updated">Effective Date: January 29, 2026</p>
+          <div className="static-header-text">
+            <h1>Terms and Conditions</h1>
+            <p className="last-updated">Effective Date: January 29, 2026</p>
+          </div>
+          <button onClick={() => window.close()} className="btn-close">Close Tab</button>
         </header>
 
         <section className="static-content">
@@ -43,9 +46,7 @@ export default function TermsPage() {
           </div>
         </section>
 
-        <footer className="static-footer">
-          <button onClick={() => window.close()} className="btn-close">Close Tab</button>
-        </footer>
+
       </div>
     </div>
   );

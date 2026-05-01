@@ -30,7 +30,7 @@ export const GET = auth(async function GET(req, { params }: Params) {
       [workspaceId, platform, fakeAccessToken, fakeAccountId, fakeAccountName]
     );
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5174';
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     return NextResponse.redirect(`${frontendUrl}/workspaces/${workspaceId}/integrations`);
   } catch (error) {
     console.error('Failed to mock integration:', error);

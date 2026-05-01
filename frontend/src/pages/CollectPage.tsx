@@ -34,13 +34,21 @@ export default function CollectPage() {
       .finally(() => setLoading(false));
   }, [formId]);
 
+  const [submitError, setSubmitError] = useState('');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formId) return;
     setSubmitting(true);
-    await api.submitTestimonial(formId, { ...fields, rating: rating || undefined });
-    setSubmitted(true);
-    setSubmitting(false);
+    setSubmitError('');
+    try {
+      await api.submitTestimonial(formId, { ...fields, rating: rating || undefined });
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -162,6 +170,8 @@ export default function CollectPage() {
               ))}
             </div>
           </div>
+
+          {submitError && <p className="collect-error" style={{ color: '#ef4444', marginBottom: '12px' }}>{submitError}</p>}
 
           <button
             type="submit"

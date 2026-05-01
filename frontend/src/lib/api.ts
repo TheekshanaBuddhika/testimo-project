@@ -26,18 +26,28 @@ export class ApiError extends Error {
 }
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  const headers: Record<string, string> = {
+    ...(options?.headers as Record<string, string> ?? {}),
+  };
+  // Only set Content-Type for requests that have a body
+  if (options?.body) {
+    headers['Content-Type'] = headers['Content-Type'] || 'application/json';
+  }
+
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options?.headers ?? {}),
-    },
+    headers,
   });
 
   if (!res.ok) {
     const data = await res.json().catch(() => ({ error: res.statusText }));
     throw new ApiError(res.status, data.error ?? 'Request failed');
+  }
+
+  // Handle 204 No Content or empty responses
+  if (res.status === 204 || res.headers.get('content-length') === '0') {
+    return {} as T;
   }
 
   return res.json() as Promise<T>;

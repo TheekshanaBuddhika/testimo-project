@@ -11,8 +11,11 @@ export default function PrivacyPage() {
     <div className="static-page">
       <div className="static-container">
         <header className="static-header">
-          <h1>Privacy Policy</h1>
-          <p className="last-updated">Effective Date: {currentDate}</p>
+          <div className="static-header-text">
+            <h1>Privacy Policy</h1>
+            <p className="last-updated">Effective Date: {currentDate}</p>
+          </div>
+          <button onClick={() => window.close()} className="btn-close">Close Tab</button>
         </header>
 
         <section className="static-content">
@@ -53,9 +56,7 @@ export default function PrivacyPage() {
           </div>
         </section>
 
-        <footer className="static-footer">
-          <button onClick={() => window.close()} className="btn-close">Close Tab</button>
-        </footer>
+
       </div>
     </div>
   );

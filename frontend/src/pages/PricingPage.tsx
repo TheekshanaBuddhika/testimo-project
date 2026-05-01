@@ -22,7 +22,7 @@ const PLANS = [
     features: ['Unlimited Testimonials', 'Unlimited Forms', '20+ Widget Templates', 'Custom Branding', 'Social Imports'],
     buttonText: 'Upgrade to Pro',
     disabled: false,
-    priceId: 'price_H5ggY9...', // Placeholder
+    priceId: import.meta.env.VITE_STRIPE_PRO_PRICE_ID || '',
   },
 ];
 

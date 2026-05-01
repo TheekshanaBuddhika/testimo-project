@@ -11,6 +11,16 @@
   font-family: 'Inter', system-ui, sans-serif;
 }
 
+/* Light mode mixed color simple pattern */
+[data-theme="light"] .login-page {
+  background-color: #fdfcfb;
+  background-image: 
+    radial-gradient(rgba(0, 119, 182, 0.2) 1.5px, transparent 1.5px),
+    radial-gradient(rgba(225, 29, 72, 0.15) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
 .login-card {
   position: relative;
   z-index: 1;
@@ -65,16 +75,16 @@
   border-radius: 12px;
   font-size: 15px;
   font-weight: 600;
-  color: var(--color-deep);
+  color: #03045e; /* Force dark text for visibility on light backgrounds */
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s, background-color 0.15s;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .google-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  background: #fff;
+  background: #ffffff;
 }
 
 .google-btn:active {

@@ -72,5 +72,5 @@ export const POST = auth(async function POST(req: NextRequest, { params }: Param
     [id, workspaceId, title, description ?? null, JSON.stringify(questions)]
   );
 
-  return NextResponse.json({ form: { id, title, description, questions } }, { status: 201 });
+  return NextResponse.json({ form: { id, title, description, questions, is_active: true, submission_count: 0 } }, { status: 201 });
 });

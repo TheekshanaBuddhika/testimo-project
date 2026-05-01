@@ -17,7 +17,43 @@ declare global {
   var _mysqlPool: mysql.Pool | undefined;
 }
 
+import fs from 'fs';
+import path from 'path';
+
 function createPool(): mysql.Pool {
+  let ssl: any = undefined;
+
+  const localCaPath = path.join(process.cwd(), 'app', 'assets', 'ca.pem');
+
+  // 1. Check if the ca.pem file exists in your assets folder
+  if (fs.existsSync(localCaPath)) {
+    ssl = {
+      ca: fs.readFileSync(localCaPath),
+      rejectUnauthorized: true,
+    };
+  }
+  // 2. Or check for a custom path in env variables
+  else if (process.env.DB_SSL_CA_PATH) {
+    ssl = {
+      ca: fs.readFileSync(process.env.DB_SSL_CA_PATH),
+      rejectUnauthorized: true,
+    };
+  } 
+  // For production (like Vercel) where you paste the certificate content into an env variable
+  else if (process.env.DB_SSL_CA) {
+    ssl = {
+      ca: process.env.DB_SSL_CA,
+      rejectUnauthorized: true,
+    };
+  }
+  // Fallback: Aiven uses standard Let's Encrypt certificates which Node.js trusts out of the box.
+  // We just need to tell mysql2 to require an SSL connection.
+  else if ((process.env.DB_HOST || '').includes('aivencloud.com')) {
+    ssl = {
+      rejectUnauthorized: true,
+    };
+  }
+
   return mysql.createPool({
     host:     process.env.DB_HOST     || 'localhost',
     port:     parseInt(process.env.DB_PORT || '3306', 10),
@@ -28,6 +64,7 @@ function createPool(): mysql.Pool {
     connectionLimit:    10,
     queueLimit:         0,
     charset:            'utf8mb4',
+    ssl, // Inject the SSL options if they exist
   });
 }
 

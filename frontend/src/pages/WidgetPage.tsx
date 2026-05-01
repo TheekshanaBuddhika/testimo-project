@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import './WidgetPage.css';
 
-const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 interface WidgetTestimonial {
   id: string;
@@ -34,7 +34,7 @@ export default function WidgetPage() {
 
   useEffect(() => {
     if (!workspaceId) return;
-    fetch(`${BACKEND_URL}/api/workspaces/${workspaceId}/widget`)
+    fetch(`${BASE_URL}/api/workspaces/${workspaceId}/widget`)
       .then(res => res.json())
       .then(data => {
         if (data.testimonials && data.testimonials.length > 0) {
@@ -87,7 +87,7 @@ export default function WidgetPage() {
         {testimonials.map((t) => (
           <div key={t.id} className="testimonial-card">
             <div className="card-inner">
-              {config.showRating && t.rating && renderStars(t.rating)}
+              {config.showRating && t.rating != null && t.rating > 0 && renderStars(t.rating)}
               <p className="testimonial-content">"{t.content}"</p>
               <div className="testimonial-author">
                 {config.showAvatar && (

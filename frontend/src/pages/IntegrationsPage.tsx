@@ -21,6 +21,7 @@ export default function IntegrationsPage() {
   const { id: workspaceId } = useParams<{ id: string }>();
   const [integrations, setIntegrations] = useState<Integration[]>([]);
   const [loading, setLoading] = useState(true);
+  const [confirmDisconnect, setConfirmDisconnect] = useState<string | null>(null);
 
   useEffect(() => {
     if (!workspaceId) return;
@@ -37,13 +38,19 @@ export default function IntegrationsPage() {
 
   const handleDisconnect = async (id: string) => {
     if (!workspaceId) return;
-    if (!confirm('Disconnect this integration?')) return;
-    
+    setConfirmDisconnect(id);
+  };
+
+  const confirmDisconnectAction = async () => {
+    if (!confirmDisconnect || !workspaceId) return;
     try {
-      await api.deleteIntegration(workspaceId, id);
-      setIntegrations(integrations.filter(i => i.id !== id));
+      await api.deleteIntegration(workspaceId, confirmDisconnect);
+      setIntegrations(integrations.filter(i => i.id !== confirmDisconnect));
+      toast.success('Integration disconnected');
     } catch (err) {
       toast.error('Failed to disconnect');
+    } finally {
+      setConfirmDisconnect(null);
     }
   };
 
@@ -108,6 +115,22 @@ export default function IntegrationsPage() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* ── Disconnect Confirmation Modal ── */}
+      {confirmDisconnect && (
+        <div className="modal-backdrop" onClick={(e) => e.target === e.currentTarget && setConfirmDisconnect(null)}>
+          <div className="modal">
+            <h2 className="modal-title">Disconnect Integration?</h2>
+            <p style={{ color: '#a0a0b0', fontSize: '14px', marginBottom: '16px' }}>
+              This will remove the integration and stop syncing reviews from this platform.
+            </p>
+            <div className="modal-actions">
+              <button className="btn-ghost" onClick={() => setConfirmDisconnect(null)}>Cancel</button>
+              <button className="btn-primary" style={{ background: '#ef4444' }} onClick={confirmDisconnectAction}>Disconnect</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-hot-toast';
 import { useParams, Link } from 'react-router-dom';
 import { api, type Testimonial, type Workspace } from '../lib/api';
@@ -21,10 +21,11 @@ export default function WorkspacePage() {
   const [loading, setLoading]             = useState(true);
   const [statusFilter, setStatusFilter]   = useState<StatusFilter>('all');
   const [showImportModal, setShowImportModal] = useState(false);
-  const [showWidgetModal, setShowWidgetModal] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState('');
   const [savingName, setSavingName] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const isSavingRef = useRef(false);
 
   useEffect(() => {
     if (!workspaceId) return;
@@ -61,14 +62,25 @@ export default function WorkspacePage() {
   };
 
   const handleDelete = async (tid: string) => {
-    if (!confirm('Delete this testimonial?')) return;
-    await api.deleteTestimonial(workspaceId!, tid);
-    setTestimonials((prev) => prev.filter((t) => t.id !== tid));
-    setTotal((n) => n - 1);
+    setConfirmDelete(tid);
+  };
+
+  const confirmDeleteAction = async () => {
+    if (!confirmDelete) return;
+    try {
+      await api.deleteTestimonial(workspaceId!, confirmDelete);
+      setTestimonials((prev) => prev.filter((t) => t.id !== confirmDelete));
+      setTotal((n) => n - 1);
+      toast.success('Testimonial deleted');
+    } catch {
+      toast.error('Failed to delete testimonial');
+    } finally {
+      setConfirmDelete(null);
+    }
   };
 
   const stars = (n: number | null) =>
-    n ? '★'.repeat(n) + '☆'.repeat(5 - n) : '—';
+    n != null && n > 0 ? '★'.repeat(n) + '☆'.repeat(5 - n) : '—';
 
   const formatWorkspaceName = (val: string) => {
     if (!val) return '';
@@ -76,7 +88,8 @@ export default function WorkspacePage() {
   };
 
   const handleUpdateName = async () => {
-    if (!workspaceId || !newName.trim()) return;
+    if (!workspaceId || !newName.trim() || isSavingRef.current) return;
+    isSavingRef.current = true;
     setSavingName(true);
     try {
       await api.updateWorkspace(workspaceId, { name: formatWorkspaceName(newName) });
@@ -86,6 +99,7 @@ export default function WorkspacePage() {
       toast.error('Failed to update workspace name');
     } finally {
       setSavingName(false);
+      isSavingRef.current = false;
     }
   };
 
@@ -262,32 +276,17 @@ export default function WorkspacePage() {
         />
       )}
 
-      {showWidgetModal && (
-        <div className="modal-backdrop" onClick={(e) => e.target === e.currentTarget && setShowWidgetModal(false)}>
+      {/* ── Delete Confirmation Modal ── */}
+      {confirmDelete && (
+        <div className="modal-backdrop" onClick={(e) => e.target === e.currentTarget && setConfirmDelete(null)}>
           <div className="modal">
-            <h2 className="modal-title">Embed Widget</h2>
+            <h2 className="modal-title">Delete Testimonial?</h2>
             <p style={{ color: '#a0a0b0', fontSize: '14px', marginBottom: '16px' }}>
-              Copy the code below and paste it into your website's HTML to display your approved & featured testimonials.
+              This action cannot be undone. The testimonial will be permanently removed.
             </p>
-            <textarea 
-              readOnly 
-              className="form-input" 
-              rows={4}
-              style={{ width: '100%', fontFamily: 'monospace', fontSize: '13px', resize: 'none', background: '#000' }}
-              value={`<iframe src="${window.location.origin}/widget/${workspaceId}?theme=dark&layout=carousel" width="100%" height="400" frameborder="0" allowtransparency="true"></iframe>`}
-              onClick={(e) => (e.target as HTMLTextAreaElement).select()}
-            />
-            <div className="modal-actions" style={{ marginTop: '16px' }}>
-              <button className="btn-ghost" onClick={() => setShowWidgetModal(false)}>Close</button>
-              <button 
-                className="btn-primary" 
-                onClick={() => {
-                  navigator.clipboard.writeText(`<iframe src="${window.location.origin}/widget/${workspaceId}?theme=dark&layout=carousel" width="100%" height="400" frameborder="0" allowtransparency="true"></iframe>`);
-                  toast.success('Copied to clipboard!');
-                }}
-              >
-                Copy Code
-              </button>
+            <div className="modal-actions">
+              <button className="btn-ghost" onClick={() => setConfirmDelete(null)}>Cancel</button>
+              <button className="btn-primary" style={{ background: '#ef4444' }} onClick={confirmDeleteAction}>Delete</button>
             </div>
           </div>
         </div>

@@ -104,9 +104,16 @@ export default function WidgetBuilderPage() {
   const iframeSrc = () => {
     if (!workspaceId) return '';
     const params = new URLSearchParams({
-      ...config as any,
-      maxLines: (config.maxLines ?? 4).toString(),
-      widgetId: selectedWidget?.id || 'preview'
+      theme: config.theme,
+      layout: config.layout,
+      primaryColor: config.primaryColor,
+      borderRadius: config.borderRadius,
+      template: config.template,
+      showRating: String(config.showRating),
+      showAvatar: String(config.showAvatar),
+      fontFamily: config.fontFamily,
+      maxLines: String(config.maxLines ?? 4),
+      widgetId: selectedWidget?.id || 'preview',
     });
     return `${window.location.origin}/widget/${workspaceId}?${params.toString()}`;
   };

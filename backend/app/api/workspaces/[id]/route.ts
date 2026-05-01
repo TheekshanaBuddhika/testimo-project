@@ -57,9 +57,23 @@ export const PATCH = auth(async function PATCH(req: NextRequest, { params }: Par
   if (!Object.keys(updates).length)
     return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
 
-  const fields = Object.keys(updates).map((k) => `\`${k}\` = ?`).join(', ');
-  const values = [...Object.values(updates), id];
-  await pool.execute(`UPDATE workspaces SET ${fields} WHERE id = ?`, values);
+  // Explicit allowlist to prevent SQL injection from dynamic field names
+  const ALLOWED_FIELDS = ['name', 'logo_url'] as const;
+  const sets: string[] = [];
+  const values: (string | null)[] = [];
+
+  for (const field of ALLOWED_FIELDS) {
+    if (field in updates) {
+      sets.push(`\`${field}\` = ?`);
+      values.push(updates[field as keyof typeof updates] ?? null);
+    }
+  }
+
+  if (!sets.length)
+    return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 });
+
+  values.push(id);
+  await pool.execute(`UPDATE workspaces SET ${sets.join(', ')} WHERE id = ?`, values);
 
   return NextResponse.json({ success: true });
 });

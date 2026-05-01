@@ -38,6 +38,15 @@ export default function App() {
           <Route path="/widget/:workspaceId" element={<WidgetPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
+
+          {/* ── 404 catch-all ── */}
+          <Route path="*" element={
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', color: 'var(--text-primary, #fff)', fontFamily: 'system-ui' }}>
+              <h1 style={{ fontSize: '72px', margin: 0, opacity: 0.3 }}>404</h1>
+              <p style={{ fontSize: '18px', color: 'var(--text-secondary, #a0a0b0)', marginTop: '8px' }}>Page not found</p>
+              <a href="/" style={{ marginTop: '24px', color: '#6366f1', textDecoration: 'none' }}>← Back to Dashboard</a>
+            </div>
+          } />
         </Routes>
       </BrowserRouter>
     </>

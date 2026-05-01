@@ -14,6 +14,8 @@ export const DELETE = auth(async function DELETE(req, { params }: Params) {
   const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+  // Note: The [platform] route param is used by the frontend to pass the integration ID
+  // for deletion. The param name is 'platform' due to shared folder with /auth and /sync routes.
   const { id: workspaceId, platform: integrationId } = await params;
 
   // Verify membership (owner/admin)

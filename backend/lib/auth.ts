@@ -40,39 +40,46 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const refreshToken     = account.refresh_token ?? null;
       const expiresAt        = account.expires_at    ?? null;
 
-      // Upsert user row
-      await pool.execute(
-        `INSERT INTO users (email, name, avatar_url, google_id)
-         VALUES (?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE
-           name       = VALUES(name),
-           avatar_url = VALUES(avatar_url),
-           google_id  = VALUES(google_id)`,
-        [email, name, avatar, googleId]
-      );
+      try {
+        const newUserId = crypto.randomUUID();
+        // Upsert user row
+        await pool.execute(
+          `INSERT INTO users (id, email, name, avatar_url, google_id)
+           VALUES (?, ?, ?, ?, ?)
+           ON DUPLICATE KEY UPDATE
+             name       = VALUES(name),
+             avatar_url = VALUES(avatar_url),
+             google_id  = VALUES(google_id)`,
+          [newUserId, email, name, avatar, googleId]
+        );
 
-      // Fetch the canonical user id (could be existing or newly inserted)
-      const [rows] = await pool.execute<RowDataPacket[]>(
-        'SELECT id FROM users WHERE email = ?',
-        [email]
-      );
-      const userId = rows[0]?.id as string;
+        // Fetch the canonical user id (could be existing or newly inserted)
+        const [rows] = await pool.execute<RowDataPacket[]>(
+          'SELECT id FROM users WHERE email = ?',
+          [email]
+        );
+        const userId = rows[0]?.id as string;
 
-      // Upsert OAuth account tokens
-      await pool.execute(
-        `INSERT INTO accounts
-           (user_id, provider, provider_account_id, access_token, refresh_token, expires_at)
-         VALUES (?, 'google', ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE
-           access_token  = VALUES(access_token),
-           refresh_token = VALUES(refresh_token),
-           expires_at    = VALUES(expires_at)`,
-        [userId, googleId, accessToken, refreshToken, expiresAt]
-      );
+        // Upsert OAuth account tokens
+        const newAccountId = crypto.randomUUID();
+        await pool.execute(
+          `INSERT INTO accounts
+             (id, user_id, provider, provider_account_id, access_token, refresh_token, expires_at)
+           VALUES (?, ?, 'google', ?, ?, ?, ?)
+           ON DUPLICATE KEY UPDATE
+             access_token  = VALUES(access_token),
+             refresh_token = VALUES(refresh_token),
+             expires_at    = VALUES(expires_at)`,
+          [newAccountId, userId, googleId, accessToken, refreshToken, expiresAt]
+        );
 
-      // Attach our DB id to the user object so jwt() can pick it up
-      (user as { dbId?: string }).dbId = userId;
-      return true;
+        // Attach our DB id to the user object so jwt() can pick it up
+        (user as { dbId?: string }).dbId = userId;
+        return true;
+      } catch (error) {
+        console.error("SIGN IN DATABASE ERROR:", error);
+        return false;
+      }
     },
   },
 });

@@ -1,0 +1,224 @@
+/* FormsPage.css — reuses btn-primary / btn-ghost / modal from DashboardPage styles */
+
+.forms-page { max-width: 800px; margin: 0 auto; }
+
+.forms-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.forms-breadcrumb {
+  font-size: 13px;
+  color: #6b6b80;
+  margin-bottom: 6px;
+}
+
+.breadcrumb-link {
+  color: #8b5cf6;
+  text-decoration: none;
+}
+
+.breadcrumb-link:hover { text-decoration: underline; }
+
+.forms-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #e2e2e8;
+  margin: 0;
+}
+
+.forms-loading { color: #6b6b80; font-size: 14px; }
+
+.forms-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  gap: 10px;
+  text-align: center;
+  color: #6b6b80;
+  font-size: 36px;
+}
+
+.forms-empty h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e2e2e8;
+  margin: 0;
+}
+
+.forms-empty p { font-size: 14px; margin: 0 0 8px; }
+
+/* ── Form cards ── */
+.forms-list { display: flex; flex-direction: column; gap: 12px; }
+
+.form-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #18181f;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  flex-wrap: wrap;
+  transition: border-color 0.15s;
+}
+
+.form-card:hover { border-color: rgba(139,92,246,0.3); }
+
+.form-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e2e2e8;
+  margin: 0 0 4px;
+}
+
+.form-card-desc {
+  font-size: 13px;
+  color: #6b6b80;
+  margin: 0 0 6px;
+}
+
+.form-card-meta { font-size: 12px; color: #6b6b80; margin: 0; }
+
+.form-status.active   { color: #22c55e; }
+.form-status.inactive { color: #ef4444; }
+
+.form-card-actions { display: flex; gap: 8px; align-items: center; }
+
+.btn-link {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8b5cf6;
+  border: 1px solid rgba(139,92,246,0.3);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.btn-link:hover { background: rgba(139,92,246,0.1); }
+
+.btn-copy {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #a0a0b0;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-copy:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: #e2e2e8;
+}
+
+/* ── Modal (shared look) ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal {
+  background: #1c1c24;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e2e2e8;
+  margin: 0 0 24px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #a0a0b0;
+}
+
+.form-input {
+  padding: 10px 14px;
+  background: #0f0f13;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: #e2e2e8;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-input:focus { border-color: rgba(139,92,246,0.5); }
+
+.form-hint-text {
+  font-size: 12px;
+  color: #6b6b80;
+  margin: 0;
+  padding: 10px;
+  background: rgba(139,92,246,0.06);
+  border-radius: 8px;
+  border: 1px solid rgba(139,92,246,0.15);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #a0a0b0;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: #e2e2e8; }

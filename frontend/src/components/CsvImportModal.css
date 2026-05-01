@@ -1,0 +1,94 @@
+.csv-modal {
+  max-width: 600px;
+  width: 100%;
+}
+
+.csv-modal-body {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── File Uploader ── */
+.csv-dropzone {
+  border: 2px dashed rgba(139, 92, 246, 0.4);
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  background: rgba(139, 92, 246, 0.05);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.csv-dropzone:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.8);
+}
+
+.csv-dropzone p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.csv-dropzone .file-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* ── Mapping UI ── */
+.csv-mapping {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.csv-mapping-header {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.mapping-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mapping-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.mapping-select {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.mapping-select:focus {
+  border-color: #8b5cf6;
+}
+
+.csv-error {
+  color: #ef4444;
+  font-size: 13px;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+}

@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Default Dark Theme (Oceanic) */
+  --color-bg: #01012b;
+  --color-deep: #03045e;
+  --color-main: #00b4d8;
+  --color-light: #caf0f8;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+  --text-muted: #64748b;
+  --card-bg: rgba(3, 4, 94, 0.4);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --primary-color: var(--color-main);
+  --primary-hover: #0096b4;
+  --accent-color: #f43f5e;
+  --sidebar-bg: #020235;
+  --accent-glow: rgba(0, 180, 216, 0.3);
+  --modal-bg: #03045e;
+  --input-bg: #01012b;
+  --input-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] {
+  --color-bg: #f4f7f9;
+  --color-deep: #ffffff;
+  --color-main: #0077b6; /* Slightly deeper cyan for contrast */
+  --color-light: #ade8f4;
+  --text-primary: #03045e;
+  --text-secondary: #334155; /* Darker slate */
+  --text-muted: #64748b;    /* Slate 500 */
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(3, 4, 94, 0.08);
+  --primary-color: var(--color-main);
+  --primary-hover: #005f92;
+  --accent-color: #e11d48;
+  --sidebar-bg: #ffffff;
+  --accent-glow: rgba(0, 119, 182, 0.15);
+  --modal-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: rgba(3, 4, 94, 0.1);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }

@@ -1,0 +1,91 @@
+.integrations-page {
+  padding: 24px;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #a0a0b0;
+  margin-bottom: 8px;
+}
+
+.breadcrumb-link {
+  color: #a0a0b0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #fff;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.integrations-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+}
+
+.integration-card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  gap: 16px;
+  transition: background 0.2s;
+}
+
+.integration-card.connected {
+  border-color: rgba(16, 185, 129, 0.2);
+  background: rgba(16, 185, 129, 0.02);
+}
+
+.integration-icon {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.integration-info {
+  flex: 1;
+}
+
+.integration-name {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.integration-status {
+  margin: 0;
+  font-size: 13px;
+  color: #a0a0b0;
+}
+
+.text-green {
+  color: #10b981;
+}
+
+.text-red {
+  color: #ef4444;
+}
+
+.integration-actions button {
+  min-width: 100px;
+}
